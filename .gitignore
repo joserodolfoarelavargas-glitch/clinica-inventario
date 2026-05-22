@@ -1,0 +1,21 @@
+﻿# Backend
+backend/venv/
+backend/__pycache__/
+backend/*.pyc
+backend/inventario.db
+backend/*.sqlite
+backend/.env
+
+# Frontend
+frontend/node_modules/
+frontend/dist/
+frontend/.env
+frontend/.env.local
+
+# IDE
+.vscode/
+.idea/
+
+# OS
+.DS_Store
+Thumbs.db
