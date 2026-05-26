@@ -17,7 +17,11 @@ app = FastAPI(
 # CORS para que React pueda llamar a la API
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=['http://localhost:5173', 'http://localhost:3000'],
+    allow_origins=["http://localhost:5173",
+        "http://localhost:3000",
+        "https://clinica-inventario.vercel.app",
+        "https://clinica-inventario-git-main.vercel.app",
+        "https://*.vercel.app"],
     allow_credentials=True,
     allow_methods=['*'],
     allow_headers=['*'],
