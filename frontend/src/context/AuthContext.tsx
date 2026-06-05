@@ -5,7 +5,7 @@ import { login as loginApi, getCurrentUser } from '../services/api';
 interface Usuario {
   id: number;
   nombre: string;
-  correo: string;
+  email: string;
   rol: 'admin' | 'responsable';
   area: string | null;
 }
@@ -31,8 +31,9 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
       const storedToken = localStorage.getItem('token');
       if (storedToken) {
         try {
-          const userData = await getCurrentUser();
-          setUser(userData);
+          const data = await getCurrentUser();
+          // Mapeamos 'correo' del backend a 'email' para el frontend
+          setUser({ ...data, email: data.correo });
           setToken(storedToken);
         } catch (error) {
           localStorage.removeItem('token');
@@ -43,15 +44,15 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     loadUser();
   }, []);
 
-  const login = async (correo: string, password: string) => {
-    const response = await loginApi(correo, password);
+  const login = async (email: string, password: string) => {
+    const response = await loginApi(email, password);
     const { access_token } = response;
     
     localStorage.setItem('token', access_token);
     setToken(access_token);
     
-    const userData = await getCurrentUser();
-    setUser(userData);
+    const data = await getCurrentUser();
+    setUser({ ...data, email: data.correo });
   };
 
   const logout = () => {

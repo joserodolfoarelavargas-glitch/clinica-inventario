@@ -64,8 +64,13 @@ export const getSugerencias = async () => {
 };
 
 // ============ SOLICITUDES ============
-export const createSolicitud = async (solicitud: any) => {
-  const response = await api.post('/solicitudes/', solicitud);
+export const createSolicitud = async (solicitudData: any) => {
+  const response = await api.post('/solicitudes/', solicitudData);
+  return response.data;
+};
+
+export const getSolicitudes = async () => {
+  const response = await api.get('/solicitudes/');
   return response.data;
 };
 
@@ -81,6 +86,11 @@ export const getPendientes = async () => {
 
 export const getAprobadas = async () => {
   const response = await api.get('/solicitudes/aprobadas');
+  return response.data;
+};
+
+export const updateSolicitudStatus = async (id: number, nuevoEstado: string) => {
+  const response = await api.patch(`/solicitudes/${id}`, { estado: nuevoEstado });
   return response.data;
 };
 

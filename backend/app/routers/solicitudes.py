@@ -4,7 +4,7 @@ from sqlalchemy.orm import Session
 from datetime import datetime
 from ..database import get_db
 from ..models import Solicitud, Producto
-from ..schemas import SolicitudCreate, SolicitudOut
+from ..schemas import SolicitudCreate, SolicitudOut, SolicitudUpdate
 from ..auth import get_current_user, require_admin
 from ..business import calcular_stock_actual, calcular_prioridad
 
@@ -36,17 +36,13 @@ def crear_solicitud(sol: SolicitudCreate, db: Session = Depends(get_db), user=De
     if not prod:
         raise HTTPException(404, 'Producto no encontrado')
     
-    # Calcular prioridad basada en stock actual
-    stock = calcular_stock_actual(db, sol.producto_id)
-    prioridad = calcular_prioridad(stock, prod.consumo_diario)
-    
     db_sol = Solicitud(
         producto_id=sol.producto_id,
         usuario_id=user.id,
         cantidad=sol.cantidad,
         comentarios=sol.comentarios,
         estado='Pendiente',
-        prioridad=prioridad
+        prioridad=sol.prioridad # Ahora usa la prioridad definida por el flujo del frontend
     )
     
     db.add(db_sol)
@@ -54,6 +50,33 @@ def crear_solicitud(sol: SolicitudCreate, db: Session = Depends(get_db), user=De
     db.refresh(db_sol)
     
     return _enrich(db_sol, db)
+
+@router.get('/', response_model=list[SolicitudOut])
+def listado_historico_solicitudes(db: Session = Depends(get_db), admin=Depends(require_admin)):
+    """Obtiene el listado completo e histórico de todas las solicitudes (Solo Admin)"""
+    solicitudes = db.query(Solicitud).order_by(Solicitud.fecha_solicitud.desc()).all()
+    return [_enrich(s, db) for s in solicitudes]
+
+
+@router.patch('/{sol_id}', response_model=SolicitudOut)
+def actualizar_estado_solicitud(sol_id: int, sol_in: SolicitudUpdate, db: Session = Depends(get_db), admin=Depends(require_admin)):
+    """Actualiza el estado o comentarios de una solicitud (Solo Admin)"""
+    sol = db.query(Solicitud).filter(Solicitud.id == sol_id).first()
+    if not sol:
+        raise HTTPException(404, 'Solicitud no encontrada')
+    
+    if sol_in.estado is not None:
+        sol.estado = sol_in.estado
+        # Si se marca como entregado, registramos la fecha actual
+        if sol_in.estado == 'Entregado':
+            sol.fecha_entrega = datetime.utcnow()
+            
+    if sol_in.comentarios is not None:
+        sol.comentarios = sol_in.comentarios
+        
+    db.commit()
+    db.refresh(sol)
+    return _enrich(sol, db)
 
 
 @router.get('/mis', response_model=list[SolicitudOut])

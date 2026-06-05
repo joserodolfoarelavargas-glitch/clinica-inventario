@@ -46,14 +46,15 @@ class UsuarioUpdate(BaseModel):
 # Productos
 class ProductoCreate(BaseModel):
     nombre: str
-    um: str = 'unidad'
-    stock_inicial: float = 0
-    consumo_diario: float = 0
-    punto_pedido: float = 0
-    lote_compra: int = 1
-    precio_unitario: float = 0
-    proveedor: Optional[str] = None
-    categoria: Optional[str] = None
+    stock_inicial: int
+    unidad_medida: str
+    precio: float
+    categoria: str
+    proveedor: str
+    # Estos campos se vuelven opcionales con valor por defecto 0 para que el frontend no los envíe
+    consumo_diario: Optional[float] = 0.0
+    punto_pedido: Optional[int] = 0
+    lote_compra: Optional[int] = 0
 
 
 class ProductoOut(BaseModel):
@@ -91,6 +92,8 @@ class ProductoUpdate(BaseModel):
 class SolicitudCreate(BaseModel):
     producto_id: int
     cantidad: float
+    prioridad: Optional[str] = "Normal"
+    area: Optional[str] = None
     comentarios: Optional[str] = None
 
 

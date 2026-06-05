@@ -1,4 +1,4 @@
-﻿import React from 'react';
+﻿﻿import React from 'react';
 import Reportes from './pages/admin/Reportes';
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import { AuthProvider, useAuth } from './context/AuthContext';
@@ -46,15 +46,15 @@ function AppRoutes() {
         path="/productos"
         element={
           <ProtectedRoute adminOnly>
-            <div className="min-h-screen bg-gray-100">
-              <nav className="bg-white shadow-md px-4 py-3 flex items-center">
+            <div className="min-h-screen bg-[#F3F4F6]">
+              <nav className="bg-[#1e3a5f] shadow-md px-4 py-3 flex items-center text-white">
                 <button
                   onClick={() => window.location.href = '/dashboard'}
-                  className="text-blue-600 hover:text-blue-800 mr-4"
+                  className="mr-4 hover:opacity-70 transition-opacity"
                 >
-                  ← Volver
+                  ←
                 </button>
-                <h1 className="text-xl font-bold text-gray-800">ClínicaInventory - Productos</h1>
+                <h1 className="text-lg font-bold">Gestión de Productos</h1>
               </nav>
               <div className="max-w-7xl mx-auto px-4 py-8">
                 <Productos />

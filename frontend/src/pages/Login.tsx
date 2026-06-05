@@ -26,11 +26,11 @@ export default function Login() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-500 to-blue-700 flex items-center justify-center">
-      <div className="bg-white rounded-2xl shadow-xl p-8 w-full max-w-md">
+    <div className="min-h-screen bg-[#EFF6FF] flex items-center justify-center p-4">
+      <div className="bg-white rounded-xl shadow-lg border border-[#DBEAFE] p-8 w-full max-w-md">
         <div className="text-center mb-8">
-          <h1 className="text-3xl font-bold text-gray-800">ClínicaInventory</h1>
-          <p className="text-gray-500 mt-2">Sistema de Gestión de Inventario</p>
+          <h1 className="text-2xl font-bold text-[#1e3a5f]">🏥 Clínica Napoleón II</h1>
+          <p className="text-sm text-gray-500 mt-2 font-medium uppercase tracking-wider">Gestión de Inventario</p>
         </div>
 
         {error && (
@@ -46,7 +46,7 @@ export default function Login() {
               type="email"
               value={correo}
               onChange={(e) => setCorreo(e.target.value)}
-              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition"
+              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#1e3a5f] focus:border-[#1e3a5f] outline-none transition text-sm"
               placeholder="admin@clinica.com"
               required
             />
@@ -58,7 +58,7 @@ export default function Login() {
               type="password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
-              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition"
+              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#1e3a5f] focus:border-[#1e3a5f] outline-none transition text-sm"
               placeholder="••••••••"
               required
             />
@@ -67,7 +67,7 @@ export default function Login() {
           <button
             type="submit"
             disabled={loading}
-            className="w-full bg-blue-600 text-white py-2 rounded-lg font-semibold hover:bg-blue-700 transition disabled:opacity-50"
+            className="w-full bg-[#1e3a5f] text-white py-2.5 rounded-lg font-bold hover:opacity-90 transition-opacity disabled:opacity-50 shadow-md"
           >
             {loading ? 'Ingresando...' : 'Ingresar'}
           </button>
